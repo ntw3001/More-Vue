@@ -11,8 +11,6 @@
   <body>
 
       <div id="app">
-        <p>{{ greetings }}</p>
-        <p>Is it true? {{ isItTrue ? "yea" : "nay" }}</p>
         <p> {{ message() }} </p>
 
       </div>
@@ -22,20 +20,26 @@
     createApp({
 
       setup(){
-        const date = new Date().toLocaleString()
+        const date = new Date().toLocaleString();
         const greetings = 'Boy howby, it\'s ' + date;
-        const isItTrue = false;
-        const message = () => 'Message from the function'
+        const isItTrue = true;
+        const names = ["Toby", "Tooby", "Toooby", "Tooooby"]
+
+        ///functions
+        // const message = () => 'Message from the function'
+
+        function message(){
+          const randName = names[Math.floor(Math.random()*names.length)];
+          if(isItTrue){
+            return `${greetings} and my name's ${randName}`
+          }
+        }
 
         return {
-          greetings,
-          isItTrue,
           message
         }
-      }
+      },
 
     }).mount('#app');
   </script>
   </html>
-
-  cheese
