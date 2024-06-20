@@ -12,31 +12,42 @@
 
       <div id="app">
 
-        <p>value: {{ count }}</p>
-        {{ changeValue() }}
+        <p>Name: {{ user.name }}</p>
+        <p>Old: {{ user.age }}</p>
+        <p>{{ user.cool ? "And he's cool!" : "But he isn't cool..." }}</p>
+        {{ updateAge() }}
+
 
       </div>
   </body>
   <script>
-    const {createApp, ref} = Vue;
+    const {createApp, ref, reactive} = Vue;
     createApp({
 
       setup(){
-        let count = ref(0);
+        let user = reactive({
+          name: 'Nick',
+          age: 37,
+          cool: true
+        });
 
-        ///functions
-
-        function changeValue(){
+        function updateAge (){
           setTimeout(() => {
-            count.value += 1;
-          }, 1000)
+            user.age += 38;
+          }, 2000)
         }
 
         return {
-          count,
-          changeValue
+          user,
+          updateAge
         }
+
       }
+
+        ///functions
+
+
+
     }).mount('#app');
   </script>
   </html>
