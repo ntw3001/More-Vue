@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Project one</title>
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+  </html>
+  <body>
+
+      <div id="app">
+        <p>{{ greetings }}</p>
+        <p>Is it true? {{ isItTrue ? "yea" : "nay" }}</p>
+        <p> {{ message() }} </p>
+
+      </div>
+  </body>
+  <script>
+    const {createApp } = Vue;
+    createApp({
+
+      setup(){
+        const date = new Date().toLocaleString()
+        const greetings = 'Boy howby, it\'s ' + date;
+        const isItTrue = false;
+        const message = () => 'Message from the function'
+
+        return {
+          greetings,
+          isItTrue,
+          message
+        }
+      }
+
+    }).mount('#app');
+  </script>
+  </html>
