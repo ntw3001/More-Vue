@@ -11,35 +11,32 @@
   <body>
 
       <div id="app">
-        <p> {{ message() }} </p>
+
+        <p>value: {{ count }}</p>
+        {{ changeValue() }}
 
       </div>
   </body>
   <script>
-    const {createApp } = Vue;
+    const {createApp, ref} = Vue;
     createApp({
 
       setup(){
-        const date = new Date().toLocaleString();
-        const greetings = 'Boy howby, it\'s ' + date;
-        const isItTrue = true;
-        const names = ["Toby", "Tooby", "Toooby", "Tooooby"]
+        let count = ref(0);
 
         ///functions
-        // const message = () => 'Message from the function'
 
-        function message(){
-          const randName = names[Math.floor(Math.random()*names.length)];
-          if(isItTrue){
-            return `${greetings} and my name's ${randName}`
-          }
+        function changeValue(){
+          setTimeout(() => {
+            count.value += 1;
+          }, 1000)
         }
 
         return {
-          message
+          count,
+          changeValue
         }
-      },
-
+      }
     }).mount('#app');
   </script>
   </html>
