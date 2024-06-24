@@ -11,43 +11,22 @@
   <body>
 
       <div id="app">
-
-        <p>Name: {{ user.name }}</p>
-        <p>Old: {{ user.age }}</p>
-        <p>{{ user.cool ? "And he's cool!" : "But he isn't cool..." }}</p>
-        {{ updateAge() }}
-
-
+        <img v-bind:src="image.src" v-bind:alt="image.alt">
       </div>
+
   </body>
   <script>
     const {createApp, ref, reactive} = Vue;
     createApp({
-
       setup(){
-        let user = reactive({
-          name: 'Nick',
-          age: 37,
-          cool: true
+        let image = ref({
+          src:'https://yaktribe.games/community/media/hackergirl-png.88162/full',
+          alt:'A picture of a cat'
         });
-
-        function updateAge (){
-          setTimeout(() => {
-            user.age += 38;
-          }, 2000)
-        }
-
-        return {
-          user,
-          updateAge
-        }
-
+        return { image }
       }
-
         ///functions
 
-
-
-    }).mount('#app');
+    }).mount('#app')
   </script>
   </html>
