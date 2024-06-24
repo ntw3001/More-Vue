@@ -12,6 +12,12 @@
 
       <div id="app">
         <img v-bind:src="image.src" v-bind:alt="image.alt">
+        <hr/>
+        <a v-bind:href="link">Click here to see more</a>
+        <hr/>
+        <p v-text="text"></p>
+        <hr/>
+        <p v-html="html"></p>
       </div>
 
   </body>
@@ -23,7 +29,10 @@
           src:'https://yaktribe.games/community/media/hackergirl-png.88162/full',
           alt:'A picture of a cat'
         });
-        return { image }
+        const link = "https://yaktribe.games/community/threads/ntw3001s-necromunda-inquisitor-whatevers.2642/"
+        const text = "don't click it though"
+        const html = "<strong>HELLO</strong>"
+        return { image, link, text, html }
       }
         ///functions
 
