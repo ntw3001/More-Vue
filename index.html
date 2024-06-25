@@ -11,48 +11,58 @@
   <body>
 
       <div id="app">
-
-        <p v-for="(name, index) in names">
-          Player {{index + 1}}'s name is {{name}}
-        </p>
-        <hr/>
-        <ul>
-          <li v-for="(name, model) in cars">
-            That's a sweet {{name.name}} {{name.model}}!
-          </li>
-        </ul>
-        <hr/>
-        <ul>
-          <li v-for="(value, key, index) in user">
-            {{index}} - {{key}}: {{value}}
-          </li>
-        </ul>
+        <h1>{{ displayValue }}</h1>
       </div>
 
   </body>
   <script>
-    const {createApp, ref, reactive} = Vue;
-    createApp({
-      setup(){
-        const names = ref(
-       ["Framcos", "Jemet", "Melliver", "Space Tom"]
-        );
-        const cars = ref([
-          {name: "Toyota", model: "Camry"},
-          {name: "Honda", model: "Civic"},
-          {name: "Ford", model: "Focus"},
-          {name: "BMW", model: "X5"}
-        ])
-        const user = {
-          Name: "Framcos",
-          Surname: "Driver",
-          Age: 186
+const { createApp, ref, watchEffect } = Vue;
+
+createApp({
+  setup() {
+    const name = ref("Steve");
+    let currentName = ref(name);
+    const consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];
+    const vowels = ["a", "e", "i", "o", "u"];
+    const displayValue = ref(capitalizeFirstLetter(name.value));
+    let intervalId;
+
+
+    function capitalizeFirstLetter(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    watchEffect(() => {
+      console.log("update function called");
+
+      intervalId = setInterval(() => {
+        let nameSplit = name.value.split('');
+        const randomIndex = Math.floor(Math.random() * nameSplit.length);
+        let letter = nameSplit[randomIndex];
+
+        let updatedLetter;
+
+        if (consonants.includes(letter.toLowerCase())) {
+          updatedLetter = consonants[Math.floor(Math.random() * consonants.length)];
+        } else if (vowels.includes(letter.toLowerCase())) {
+          updatedLetter = vowels[Math.floor(Math.random() * vowels.length)];
+        } else {
+          return;
         }
 
-        return {names, cars, user}
-      }
-        ///functions
+        nameSplit[randomIndex] = updatedLetter;
 
-    }).mount('#app')
+        currentName.value = nameSplit.join("");
+        displayValue.value = capitalizeFirstLetter(currentName.value);
+      }, 1000);
+
+      // Clean up interval on component unmount
+      return () => clearInterval(intervalId);
+    });
+
+    return { displayValue };
+  }
+}).mount('#app');
+
   </script>
   </html>
