@@ -14,11 +14,19 @@
         <p v-if="user.age > user.allowedAge">
           No probalo! You can do it!
         </p>
-        <p v-else-if="user.name === 'Framcos'">
-          Framcos, I asked you to stop checking this page.
+        <p v-else-if="checkUser">
+          {{ user.name }}, I asked you to stop checking this page.
         </p>
         <p v-else>
           It is forbidden. Go home.
+        </p>
+        <hr/>
+
+        <p v-show="checkUser()">
+          Can you see it, {{user.name}}?
+        </p>
+        <p v-show="!checkUser()">
+          I know you can't see it, {{user.name}}
         </p>
       </div>
 
@@ -31,9 +39,13 @@
           name: "Framcos",
           age: 186,
           allowedAge: 187
-        })
+        });
 
-        return {user}
+        function checkUser(){
+          return user.value.name === "Framcos" ? true : false
+        }
+
+        return {user, checkUser}
       }
         ///functions
 
