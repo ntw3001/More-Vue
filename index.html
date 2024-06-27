@@ -21,15 +21,14 @@
 
       <div id="app">
         <h1>{{ name }}</h1>
-        <div v-on:click="updateName">
+        <div v-on:click.middle="updateName('Stebe')">
           Change my name
         </div>
         <hr/>
-        <div class="box" v-on:mousemove="getCoord">
-          tickle me
-        </div>
-        <p>x:{{coord.x}}</p>
-        <p>y:{{coord.y}}</p>
+        <form @submit.prevent="handleForm">
+          <input type="text"/>
+          <button type="submit">Submit</button>
+        </form>
       </div>
 
   </body>
@@ -39,23 +38,17 @@ const { createApp, ref } = Vue;
 createApp({
   setup() {
 
-    const name = ref('Framcos');
-    const coord = ref({x:0, y:0});
+    const name = ref('Framcos')
 
-    function updateName() {
-      if (name.value === 'Framcos') {
-        name.value = 'Francis';
-      } else {
-        name.value = 'Framcos';
-      }
+    function updateName(newName, event) {
+        name.value = newName
     }
 
-    function getCoord(event) {
-      coord.value.x = event.clientX
-      coord.value.y = event.clientY
+    function handleForm() {
+      console.log('Submitted')
     }
 
-    return { name, updateName, coord, getCoord }
+    return { name, updateName, handleForm }
 
   }
 }).mount('#app');
