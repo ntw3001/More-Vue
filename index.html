@@ -8,27 +8,33 @@
     <title>Project one</title>
     <!-- <link rel="stylesheet" href="css/style.css"> -->
 
-    <style>
-        .box {
-          background: red;
-          width: 200px;
-          height: 200px;
-        }
-    </style>
-
   </html>
   <body>
 
       <div id="app">
-        <h1>{{ name }}</h1>
-        <div v-on:click.middle="updateName('Stebe')">
-          Change my name
-        </div>
-        <hr/>
-        <form @submit.prevent="handleForm">
-          <input type="text"/>
-          <button type="submit">Submit</button>
-        </form>
+
+        <form v-on:submit.prevent="formHandler">
+            <label>Name:</label>
+            <input type="text"v-model.trim='formData.name'>
+            <hr/>
+            <label>Name, 2nd:</label>
+            <input type="text"v-model.trim='formData.lastName'>
+            <hr/>
+            <label>Age:</label>
+            <input type="number"v-model.trim='formData.age'>
+            <hr/>
+            <label>Is cool:</label>
+            <input type="checkbox" id="checked" v-model='formData.cool'>
+            <label> {{ formData.cool }} </label>
+
+            <hr/>
+
+            <button type="submit">
+              Submit
+            </button>
+
+
+          </form>
       </div>
 
   </body>
@@ -37,19 +43,17 @@ const { createApp, ref } = Vue;
 
 createApp({
   setup() {
+    const formData = ref({
+      name:'',
+      lastName:'',
+      age:'',
+      cool:false
+    })
 
-    const name = ref('Framcos')
-
-    function updateName(newName, event) {
-        name.value = newName
+    function formHandler() {
+      console.log(formData.value);
     }
-
-    function handleForm() {
-      console.log('Submitted')
-    }
-
-    return { name, updateName, handleForm }
-
+    return { formData, formHandler }
   }
 }).mount('#app');
 
