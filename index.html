@@ -11,7 +11,10 @@
   <body>
 
       <div id="app">
-        <h1>{{ displayValue }}</h1>
+        <h1>{{ name }}</h1>
+        <div v-on:click="updateName">
+          Change my name
+        </div>
       </div>
 
   </body>
@@ -20,47 +23,19 @@ const { createApp, ref, watchEffect } = Vue;
 
 createApp({
   setup() {
-    const name = ref("Steve");
-    let currentName = ref(name);
-    const consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"];
-    const vowels = ["a", "e", "i", "o", "u"];
-    const displayValue = ref(capitalizeFirstLetter(name.value));
-    let intervalId;
 
+    const name = ref('Framcos');
 
-    function capitalizeFirstLetter(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
+    function updateName() {
+      if (name.value === 'Framcos') {
+        name.value = 'Francis';
+      } else {
+        name.value = 'Framcos';
+      }
     }
 
-    watchEffect(() => {
-      console.log("update function called");
+    return { name, updateName }
 
-      intervalId = setInterval(() => {
-        let nameSplit = name.value.split('');
-        const randomIndex = Math.floor(Math.random() * nameSplit.length);
-        let letter = nameSplit[randomIndex];
-
-        let updatedLetter;
-
-        if (consonants.includes(letter.toLowerCase())) {
-          updatedLetter = consonants[Math.floor(Math.random() * consonants.length)];
-        } else if (vowels.includes(letter.toLowerCase())) {
-          updatedLetter = vowels[Math.floor(Math.random() * vowels.length)];
-        } else {
-          return;
-        }
-
-        nameSplit[randomIndex] = updatedLetter;
-
-        currentName.value = nameSplit.join("");
-        displayValue.value = capitalizeFirstLetter(currentName.value);
-      }, 1000);
-
-      // Clean up interval on component unmount
-      return () => clearInterval(intervalId);
-    });
-
-    return { displayValue };
   }
 }).mount('#app');
 
