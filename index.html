@@ -7,6 +7,15 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Project one</title>
     <!-- <link rel="stylesheet" href="css/style.css"> -->
+
+    <style>
+        .box {
+          background: red;
+          width: 200px;
+          height: 200px;
+        }
+    </style>
+
   </html>
   <body>
 
@@ -15,16 +24,23 @@
         <div v-on:click="updateName">
           Change my name
         </div>
+        <hr/>
+        <div class="box" v-on:mousemove="getCoord">
+          tickle me
+        </div>
+        <p>x:{{coord.x}}</p>
+        <p>y:{{coord.y}}</p>
       </div>
 
   </body>
   <script>
-const { createApp, ref, watchEffect } = Vue;
+const { createApp, ref } = Vue;
 
 createApp({
   setup() {
 
     const name = ref('Framcos');
+    const coord = ref({x:0, y:0});
 
     function updateName() {
       if (name.value === 'Framcos') {
@@ -34,7 +50,12 @@ createApp({
       }
     }
 
-    return { name, updateName }
+    function getCoord(event) {
+      coord.value.x = event.clientX
+      coord.value.y = event.clientY
+    }
+
+    return { name, updateName, coord, getCoord }
 
   }
 }).mount('#app');
