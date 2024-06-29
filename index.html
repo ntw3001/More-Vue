@@ -12,68 +12,48 @@
   <body>
 
       <div id="app">
-        <div class="element" v-bind:class="[
-          colors.blueClass.active ? colors.blueClass.name:'',
-          colors.redClass.active ? colors.redClass.name:''
-          ]"
-          v-bind:style="colors.newStyle">
-          This is it, this is all
+        <input v-model="data.user"/>
+        <button v-on:click="toggleActive">Other action</button>
+        <hr/>
+        <div>
+          Message: {{ message }}
         </div>
-        <div v-on:click="colors.redClass.active =!colors.redClass.active">
-          Activate red
+        <div></div>
+          Active: {{ isActive }}
+      <br>
+          im a dog but i can change my color
         </div>
       </div>
 
   </body>
   <script>
-    const { createApp, ref } = Vue;
+    const { createApp, ref, computed } = Vue;
     createApp({
         setup() {
-          const colors = ref({
-          blueClass:{
-            name: "blue",
-            active: true
-          },
-          redClass:{
-          name: "red",
-          active: false
-        },
-        newStyle:{
-          fontSize:"50px",
-          border:"5px solid green"
-        }
-        })
+          const data = ref({
+            user:"",
+            active:""
+          })
 
-          return { colors }
+          const message = computed(() => {
+            console.log("messaged")
+            return data.value.user === "Francis" ? "Welcome" : "Forbidden"
+          })
 
+
+          const isActive = computed(() => {
+            console.log("actived")
+            return data.value.active ? "Active" : "Inactive"
+          })
+
+          function toggleActive(){
+            data.value.active = data.value.active ? false:true
+          }
+
+          return { data, message, isActive, toggleActive }
           }
     }).mount('#app');
 
   </script>
-
-<style>
-  .element {
-  color: white;
-  background: black;
-  padding: 10px;
-  }
-
-  .blue {
-    background: blue;
-  }
-
-  .red {
-    background: red;
-  }
-
-  .green {
-    background: green;
-  }
-
-  .large {
-    font-size: 40px;
-  }
-
-</style>
 
   </html>
