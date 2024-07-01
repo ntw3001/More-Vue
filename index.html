@@ -12,46 +12,39 @@
   <body>
 
       <div id="app">
-        <input v-model="data.user"/>
-        <button v-on:click="toggleActive">Other action</button>
-        <hr/>
-        <div>
-          Message: {{ message }}
-        </div>
-        <div></div>
-          Active: {{ isActive }}
-      <br>
-          im a dog but i can change my color
-        </div>
+        <div>Count:{{ count.number }}</div>
+        <button @click="count.number++">Increment</button>
       </div>
 
   </body>
   <script>
-    const { createApp, ref, computed } = Vue;
+    const { createApp, ref, watch, reactive } = Vue;
     createApp({
         setup() {
-          const data = ref({
-            user:"",
-            active:""
-          })
 
-          const message = computed(() => {
-            console.log("messaged")
-            return data.value.user === "Francis" ? "Welcome" : "Forbidden"
-          })
+          //1st, just a plain old number::
 
+          // const count = ref(0);
 
-          const isActive = computed(() => {
-            console.log("actived")
-            return data.value.active ? "Active" : "Inactive"
-          })
+          // watch(count, (newValue, oldValue) => {
+          //   console.log('count changed to', newValue, 'from', oldValue);
+          // });
 
-          function toggleActive(){
-            data.value.active = data.value.active ? false:true
-          }
+          //2nd, using a getter fuction to return an object with multiple properties:
 
-          return { data, message, isActive, toggleActive }
-          }
+          const count = reactive({
+            number:0,
+            other:"no purpose"
+          });
+
+          watch(()=> count.number, (newValue, oldValue) => {
+            console.log('count changed to', newValue, 'from', oldValue);
+          });
+
+          // ^that ()=> is the getter function, it returns the value of count.value.number
+
+          return { count }
+        }
     }).mount('#app');
 
   </script>
