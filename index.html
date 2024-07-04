@@ -12,51 +12,25 @@
   <body>
 
       <div id="app">
-        <div>Count:{{ count.number }}</div>
-        <button @click="count.number++">Increment</button>
+        <!-- v-bind - shorthand is : -->
+        <a :href="google"> Gobble Gobble </a>
+        <hr/>
+        <!-- v-on: shorthand is @ -->
+        <button @click="alertSomething">Click me</button>
       </div>
 
   </body>
   <script>
-    const { createApp, ref, watch, reactive } = Vue;
+    const { createApp, ref } = Vue;
     createApp({
         setup() {
+          const google = ref('https://www.google.com')
 
-        //1st, just a plain old number::
+          const alertSomething=()=>{
+            alert('Yes! Yes! Yes!')
+          }
 
-          // const count = ref(0);
-
-          // watch(count, (newValue, oldValue) => {
-          //   console.log('count changed from', oldValue, 'to', newValue);
-          // });
-
-        //2nd, using a getter fuction to return an object with multiple properties:
-
-          // const count = reactive({
-          //   number:0,
-          //   other:"no purpose",
-          //   third:3
-          // });
-
-          // watch(()=> [count.number, count.other, count.third], (newValue, oldValue) => {
-          //   console.log('count changed from', oldValue, 'to', newValue);
-          // });
-
-        // ^that ()=> is the getter function, it returns the value of count.value.number
-
-        //3rd, fishing up a single property from the object:
-
-          const count = reactive({
-              number:0,
-              other:"no purpose",
-              third:3
-            });
-
-            watch(()=> [count.number, count.other, count.third], (newValue, oldValue) => {
-              console.log('count changed from', oldValue[0], 'to', newValue[0]);
-            });
-
-          return { count }
+          return { google, alertSomething }
         }
     }).mount('#app');
 
